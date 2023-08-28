@@ -43,12 +43,6 @@ class PecahanController extends Controller
         foreach ($jumlahPecahanBayar as $pecahan => $jumlah) {
             $jumlahPecahan[$pecahan] = ($jumlahPecahan[$pecahan] ?? 0) + $jumlah;
         }
-
-        // $result = [
-        //     'kembalian' => $totalKembalian,
-        //     'pecahanKembalian' => $pecahanKembalian,
-        //     'sisaPecahanAulia' => $jumlahPecahan
-        // ];
         
         return view('pecahan.result', compact('totalKembalian','pecahanKembalian', 'jumlahPecahan'));
     }
