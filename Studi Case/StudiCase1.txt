@@ -1,0 +1,41 @@
+Berapa pecahan yang dimiliki Aulia sekarang ?
+
+Jawaban
+
+Pecahan Uang Aulia saat ini :
+7 lembar 2000
+1 lembar 1000
+3 lembar 10000
+4 lembar 5000
+1 lembar 50000
+1 lembar 100000
+4 koin 500
+
+Total Belanja Yoga 4500
+
+Uang yang dibayar Yoga terdiri dari pecahanan :
+1 lembar 10000
+3 koin 500
+
+Jika ditotalkan maka 10000 + 1500 = 11500
+Uang kembalian berarti 11500 - 4500 = 7000
+
+Pecahan yang digunaan Aulia untuk kembalian:
+1 lembar 5000
+1 lembar 2000
+
+Maka uang pecahan yang didapat Aulia 
+1 lembar 10000 dan 3 koin 500
+uang pecahan yang berkurang dari Aulia
+1 lembar 5000 dan 1 lembar 2000
+
+maka sisa uang pecahan yang Aulia miliki Sekarang :
+6 lembar 2000
+1 lembar 1000
+4 lembar 10000
+3 lembar 5000
+1 lembar 50000
+1 lembar 100000
+7 koin 500
+
+
