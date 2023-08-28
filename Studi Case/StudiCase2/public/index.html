@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kembalian Calculator</title>
+</head>
+<body>
+    <h1>Kembalian Calculator</h1>
+    <form id="kembalianForm">
+        <h2>Pecahan Yang Dimiliki</h2>
+        <div id="denominationInputs"></div>
+        <br>
+
+        <h2>Detail Transaksi</h2>
+        <label for="totalBelanja">Total Belanja:</label>
+        <input type="number" id="totalBelanja" name="totalBelanja">
+        <br>
+
+        <h2>Pecahan Yang Digunakan Pembeli</h2>
+        <div id="denominationInputsPaid"></div>
+        <button type="submit">Calculate</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        // Fetch denomination types from the REST API
+        async function fetchDenominations() {
+            const response = await fetch('/denominations');
+            const denominations = await response.json();
+            return denominations;
+        }
+
+        // Create input fields for each denomination type
+        async function createDenominationInputs() {
+            const denominations = await fetchDenominations();
+            const denominationInputsDiv = document.getElementById('denominationInputs');
+
+            denominations.forEach(denomination => {
+                const inputLabel = document.createElement('label');
+                inputLabel.setAttribute('for', `denomination_${denomination}`);
+                inputLabel.textContent = `${denomination}:`;
+
+                const inputField = document.createElement('input');
+                inputField.setAttribute('type', 'number');
+                inputField.setAttribute('id', `denomination_${denomination}`);
+                inputField.setAttribute('name', `denomination_${denomination}`);
+                inputField.setAttribute('value', '0');
+
+                denominationInputsDiv.appendChild(inputLabel);
+                denominationInputsDiv.appendChild(inputField);
+                denominationInputsDiv.appendChild(document.createElement('br'));
+            });
+        }
+        
+        async function createDenominationInputsPaid() {
+            const denominations = await fetchDenominations();
+            const denominationInputsDiv = document.getElementById('denominationInputsPaid');
+
+            denominations.forEach(denomination => {
+                const inputLabel = document.createElement('label');
+                inputLabel.setAttribute('for', `denomination_paid_${denomination}`);
+                inputLabel.textContent = `${denomination}:`;
+
+                const inputField = document.createElement('input');
+                inputField.setAttribute('type', 'number');
+                inputField.setAttribute('id', `denomination_paid_${denomination}`);
+                inputField.setAttribute('name', `denomination_paid_${denomination}`);
+                inputField.setAttribute('value', '0');
+
+                denominationInputsDiv.appendChild(inputLabel);
+                denominationInputsDiv.appendChild(inputField);
+                denominationInputsDiv.appendChild(document.createElement('br'));
+            });
+        }
+
+        // Call the function to create dynamic input fields
+        createDenominationInputs();
+        createDenominationInputsPaid();
+        
+        
+        const form = document.getElementById('kembalianForm');
+        const resultDiv = document.getElementById('result');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const jumlahPecahan = {
+                500: parseInt(formData.get('denomination_500')),
+                1000: parseInt(formData.get('denomination_1000')),
+                2000: parseInt(formData.get('denomination_2000')),
+                5000: parseInt(formData.get('denomination_5000')),
+                10000: parseInt(formData.get('denomination_10000')),
+                20000: parseInt(formData.get('denomination_20000')),
+                50000: parseInt(formData.get('denomination_50000')),
+                100000: parseInt(formData.get('denomination_100000'))
+            };
+            const jumlahPecahanBayar = {
+                500: parseInt(formData.get('denomination_paid_500')),
+                1000: parseInt(formData.get('denomination_paid_1000')),
+                2000: parseInt(formData.get('denomination_paid_2000')),
+                5000: parseInt(formData.get('denomination_paid_5000')),
+                10000: parseInt(formData.get('denomination_paid_10000')),
+                20000: parseInt(formData.get('denomination_paid_20000')),
+                50000: parseInt(formData.get('denomination_paid_50000')),
+                100000: parseInt(formData.get('denomination_paid_100000'))
+            };
+            const totalBelanja = parseInt(formData.get('totalBelanja'));
+
+            const response = await fetch('/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    jumlahPecahan,
+                    totalBelanja,
+                    jumlahPecahanBayar
+                })
+            });
+
+            const result = await response.json();
+            resultDiv.innerHTML = `<pre>${JSON.stringify(result, null, 4)}</pre>`;
+        });
+    </script>
+</body>
+</html>
